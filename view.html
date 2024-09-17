@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>View Job Sheet</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      background: url('hill.webp') no-repeat center center/cover;
+    }
+    
+    .container {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+      font-size: 20px;
+      max-width: 906px;
+      margin: auto;
+    }
+
+    .details {
+      background: url('p2.jpg') no-repeat center center/cover;
+      padding: 30px;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      width: 100%;
+      max-width: 880px;
+      margin-top: 20px;
+    }
+
+    h2 {
+      font-size: 24px;
+      background-color: #000044;
+      color: white;
+      padding: 5px;
+      border-radius: 5px;
+      text-align: center;
+    }
+
+    .form-group {
+      margin-bottom: 15px;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 5px;
+    }
+
+    .btn {
+      font-size: 18px;
+      cursor: pointer;
+      border-radius: 8px;
+      padding: 10px 20px;
+      border: none;
+      background-color: #000044;
+      color: white;
+      display: block;
+      margin: 20px auto;
+    }
+
+    .btn:hover {
+      background-color: red;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="details" id="jobSheetDetails">
+      <h2>Job Sheet Details</h2>
+      <div class="form-group">
+        <label for="viewName">Client Name:</label>
+        <p id="viewName"></p>
+      </div>
+
+      <div class="form-group">
+        <label for="viewNumber">Contact Info:</label>
+        <p id="viewNumber"></p>
+      </div>
+
+      <div class="form-group">
+        <label for="viewDate">Received Date:</label>
+        <p id="viewDate"></p>
+      </div>
+
+      <div class="form-group">
+        <label for="viewInventory">Inventory Received:</label>
+        <p id="viewInventory"></p>
+      </div>
+
+      <div class="form-group">
+        <label for="viewUpload">Uploaded File:</label>
+        <p id="viewUpload"></p>
+      </div>
+
+      <div class="form-group">
+        <label for="viewIssues">Reported Issues:</label>
+        <p id="viewIssues"></p>
+      </div>
+
+      <div class="form-group">
+        <label for="viewClientNote">Client Notes:</label>
+        <p id="viewClientNote"></p>
+      </div>
+
+      <div class="form-group">
+        <label for="viewTech">Assigned Technician:</label>
+        <p id="viewTech"></p>
+      </div>
+
+      <div class="form-group">
+        <label for="viewDeadline">Deadline:</label>
+        <p id="viewDeadline"></p>
+      </div>
+
+      <div class="form-group">
+        <label for="viewEstimate">Estimated Amount:</label>
+        <p id="viewEstimate"></p>
+      </div>
+
+      <div class="form-group">
+        <label for="viewStatus">Status:</label>
+        <p id="viewStatus"></p>
+      </div>
+
+      <a href="index.html"><button class="btn">Back to Dashboard</button></a>
+    </div>
+  </div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      const urlParams = new URLSearchParams(window.location.search);
+      const index = urlParams.get('index');
+      const jobSheets = JSON.parse(localStorage.getItem('jobSheets')) || [];
+      const job = jobSheets[index];
+
+      if (job) {
+        document.getElementById('viewName').textContent = job.myName;
+        document.getElementById('viewNumber').textContent = job.myNumber;
+        document.getElementById('viewDate').textContent = job.myDate;
+        document.getElementById('viewInventory').textContent = job.myinventory;
+        document.getElementById('viewUpload').textContent = job.myupload;
+        document.getElementById('viewIssues').textContent = job.myissues;
+        document.getElementById('viewClientNote').textContent = job.myclientnote;
+        document.getElementById('viewTech').textContent = job.mytech;
+        document.getElementById('viewDeadline').textContent = job.myDead;
+        document.getElementById('viewEstimate').textContent = job.myestimate;
+        document.getElementById('viewStatus').textContent = job.mystaus;
+      } else {
+        alert('Job sheet not found!');
+      }
+    });
+  </script>
+</body>
+</html>

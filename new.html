@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>New/ Edit Job Sheet</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      background: url('hill.webp') no-repeat center center/cover;
+    }
+    
+    .container {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+      font-size: 20px;
+      max-width: 906px;
+      margin: auto;
+    }
+
+    form {
+      background: url('p2.jpg') no-repeat center center/cover;
+      padding: 50px;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      width: 100%;
+      max-width: 880px;
+    }
+
+    h2 {
+      font-size: 24px;
+      background-color: #000044;
+      color: white;
+      padding: 5px;
+      border-radius: 5px;
+      text-align: center;
+    }
+
+    .form-group {
+      margin-bottom: 15px;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 5px;
+    }
+
+    input, select {
+      width: 100%;
+      padding: 8px;
+      box-sizing: border-box;
+    }
+
+    .btn-container {
+      display: flex;
+      justify-content: center;
+    }
+
+    .btn {
+      font-size: 18px;
+      cursor: pointer;
+      border-radius: 8px;
+      padding: 10px 20px;
+      border: none;
+      background-color: #000044;
+      color: white;
+    }
+
+    .btn:hover {
+      background-color: red;
+    }
+
+  </style>
+</head>
+<body>
+  <div class="container">
+    <form id="jobSheetForm">
+      <h2 id="formTitle">CREATE NEW JOB SHEET</h2>
+
+      <div class="form-group">
+        <label for="myName">Client Name:</label>
+        <input type="text" id="myName" name="myName" required />
+      </div>
+
+      <div class="form-group">
+        <label for="myNumber">Contact info (phone 10nos):</label>
+        <input type="text" id="myNumber" name="myNumber" pattern="\d{10}" required title="Please enter a valid 10-digit phone number." />
+      </div>
+
+      <div class="form-group">
+        <label for="myDate">Received Date:</label>
+        <input type="date" id="myDate" name="myDate" required />
+      </div>
+
+      <div class="form-group">
+        <label for="myinventory">Inventory Received:</label>
+        <input type="text" id="myinventory" name="myinventory" required />
+      </div>
+
+      <div class="form-group">
+        <label for="myupload">Upload Inventory Image/Document/Video:</label>
+        <input type="file" id="myupload" name="myupload" accept="image/*,application/pdf,video/*" />
+      </div>
+
+      <div class="form-group">
+        <label for="myissues">Reported Issues:</label>
+        <input type="text" id="myissues" name="myissues" required />
+      </div>
+
+      <div class="form-group">
+        <label for="myclientnote">Client Notes:</label>
+        <input type="text" id="myclientnote" name="myclientnote" required />
+      </div>
+
+      <div class="form-group">
+        <label for="mytech">Assigned Technician:</label>
+        <input type="text" id="mytech" name="mytech" required />
+      </div>
+
+      <div class="form-group">
+        <label for="myDead">Deadline:</label>
+        <input type="date" id="myDead" name="myDead" required />
+      </div>
+
+      <div class="form-group">
+        <label for="myestimate">Estimated Amount:</label>
+        <input type="text" id="myestimate" name="myestimate" required />
+      </div>
+
+      <div class="form-group">
+        <label for="mystaus">Status:</label>
+        <input type="text" id="mystaus" name="mystaus" required />
+      </div>
+
+      <div class="form-group btn-container">
+        <button class="btn" type="submit">Save Job Sheet</button>
+      </div>
+    </form>
+  </div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      const urlParams = new URLSearchParams(window.location.search);
+      const editIndex = urlParams.get('edit');
+
+      if (editIndex !== null) {
+        document.getElementById('formTitle').textContent = 'EDIT JOB SHEET';
+
+        const jobSheets = JSON.parse(localStorage.getItem('jobSheets')) || [];
+        const job = jobSheets[editIndex];
+
+        if (job) {
+          document.getElementById('myName').value = job.myName;
+          document.getElementById('myNumber').value = job.myNumber;
+          document.getElementById('myDate').value = job.myDate;
+          document.getElementById('myinventory').value = job.myinventory;
+          document.getElementById('myissues').value = job.myissues;
+          document.getElementById('myclientnote').value = job.myclientnote;
+          document.getElementById('mytech').value = job.mytech;
+          document.getElementById('myDead').value = job.myDead;
+          document.getElementById('myestimate').value = job.myestimate;
+          document.getElementById('mystaus').value = job.mystaus;
+        }
+      }
+    });
+
+    document.getElementById('jobSheetForm').addEventListener('submit', function(event) {
+      event.preventDefault();
+
+      const urlParams = new URLSearchParams(window.location.search);
+      const editIndex = urlParams.get('edit');
+
+      const jobSheet = {
+        myName: document.getElementById('myName').value,
+        myNumber: document.getElementById('myNumber').value,
+        myDate: document.getElementById('myDate').value,
+        myinventory: document.getElementById('myinventory').value,
+        myupload: document.getElementById('myupload').files[0]?.name || '',
+        myissues: document.getElementById('myissues').value,
+        myclientnote: document.getElementById('myclientnote').value,
+        mytech: document.getElementById('mytech').value,
+        myDead: document.getElementById('myDead').value,
+        myestimate: document.getElementById('myestimate').value,
+        mystaus: document.getElementById('mystaus').value
+      };
+
+      let jobSheets = JSON.parse(localStorage.getItem('jobSheets')) || [];
+
+      if (editIndex !== null) {
+        jobSheets[editIndex] = jobSheet; 
+      } else {
+        jobSheets.push(jobSheet); 
+      }
+
+      localStorage.setItem('jobSheets', JSON.stringify(jobSheets));
+
+      window.location.href = 'index.html';
+    });
+  </script>
+</body>
+</html>
